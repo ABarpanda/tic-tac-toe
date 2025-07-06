@@ -8,6 +8,8 @@ const wss = new WebSocket.Server({ server });
 
 let rooms = {};
 
+app.use(express.static("public"));
+
 wss.on("connection", (ws) => {
   let currentRoom = null;
 
@@ -51,8 +53,6 @@ wss.on("connection", (ws) => {
     }
   });
 });
-
-app.use(express.static("public"));
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
