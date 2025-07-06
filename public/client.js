@@ -6,11 +6,26 @@ const board = document.getElementById("board");
 
 function joinRoom() {
   const roomName = document.getElementById("room").value;
-  ws = new WebSocket("ws://" + location.host);
+    const protocol = location.protocol === "https:" ? "wss" : "ws";
+    ws = new WebSocket(`${protocol}://${location.host}`);
 
-  ws.onopen = () => {
+
+    ws.onopen = () => {
+    console.log("✅ WebSocket connected");
     ws.send(JSON.stringify({ type: "join", room: roomName }));
-  };
+    };
+
+    ws.onerror = (e) => {
+    console.error("❌ WebSocket error", e);
+    };
+
+    ws.onclose = () => {
+    console.warn("⚠️ WebSocket closed");
+    };
+
+    // ws.onmessage = (msg) => {
+    // console.log("📨 Message from server:", msg.data);
+    // };
 
   ws.onmessage = (message) => {
     const data = JSON.parse(message.data);
