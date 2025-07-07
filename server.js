@@ -12,6 +12,7 @@ app.use(express.static("public"));
 
 wss.on("connection", (ws) => {
   let currentRoom = null;
+  console.log("✅ WebSocket client connected");
 
   ws.on("message", (message) => {
     const data = JSON.parse(message);
@@ -52,6 +53,10 @@ wss.on("connection", (ws) => {
       if (rooms[currentRoom].length === 0) delete rooms[currentRoom];
     }
   });
+});
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/public/index.html");
 });
 
 const PORT = process.env.PORT || 3000;

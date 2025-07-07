@@ -11,7 +11,6 @@ function joinRoom() {
 
 
     ws.onopen = () => {
-    console.log("✅ WebSocket connected");
     ws.send(JSON.stringify({ type: "join", room: roomName }));
     };
 
